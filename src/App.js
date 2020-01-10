@@ -46,8 +46,10 @@ class App extends React.Component {
    * Open model to edit task
    */
   openTaskModal = e => {
-    this.state.editableTask = parseInt(e.target.getAttribute('data-index'));
-    this.handleModal();
+    if (e.target.getAttribute('data-index') !== null) {
+      this.state.editableTask = parseInt(e.target.getAttribute('data-index'));
+      this.handleModal();
+    }
   };
 
   /**
@@ -95,22 +97,16 @@ class App extends React.Component {
     }
   };
 
-  handleChange = date => {
-    this.setState(prevState => ({
-      items: {
-        ...prevState.tasks,
-        [prevState.tasks[this.state.editableTask].startDate]: date
-      }
-    }));
-  };
-
   render() {
     return (
       <div className='container'>
         <div className='row'>
           <div className='col-4'>
-            <TaskForm saveTask={this.saveTask} />
-            <TaskList tasks={this.state.tasks} />
+            <TaskForm saveTask={this.saveTask} startDate={'2020-01-22'} />
+            <TaskList
+              tasks={this.state.tasks}
+              openTaskModal={this.openTaskModal}
+            />
           </div>
           <div className='col-8'>
             <TaskTable
@@ -122,8 +118,8 @@ class App extends React.Component {
         </div>
         <div>
           <Modal show={this.state.showModal}>
-            <Modal.Header>
-              Edit task{' '}
+            <Modal.Header className='modal-header'>
+              Edit task
               <span className='top-right mr-2' onClick={this.handleModal}>
                 X
               </span>

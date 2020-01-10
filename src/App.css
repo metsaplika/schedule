@@ -6,6 +6,10 @@
   padding-left: 5px !important;
   margin-left: 5px !important;
 }
+.info-container,
+.info-row {
+  text-align: center;
+}
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
@@ -58,7 +62,7 @@
   background-color: #f27d2e;
   cursor: pointer;
 }
-input[type='date'] {
+.form-row input[type='date'] {
   max-width: 150px;
 }
 .button-wrapper {
@@ -76,4 +80,10 @@ span {
   top: 0;
   right: 0;
   padding: 3px;
+}
+.end-date {
+  margin-left: 30px;
+}
+.modal-header {
+  background-color: #f27d2e;
 }
