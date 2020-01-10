@@ -2,9 +2,9 @@
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.container {
+  padding-left: 5px !important;
+  margin-left: 5px !important;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -35,4 +35,45 @@
   to {
     transform: rotate(360deg);
   }
+}
+.tasks-container {
+  border: 1px solid #d6cbc3;
+  margin-top: 20px;
+  padding-right: 15px !important;
+  padding-left: 15px !important;
+}
+.inline-el {
+  display: inline-block;
+}
+.left {
+  float: left;
+}
+.right {
+  float: right;
+}
+.week {
+  height: 16px;
+}
+.active-week {
+  background-color: #f27d2e;
+  cursor: pointer;
+}
+input[type='date'] {
+  max-width: 150px;
+}
+.button-wrapper {
+  height: 50px;
+}
+.item {
+  margin-bottom: 0 !important;
+}
+span {
+  cursor: pointer;
+  font-weight: bold;
+}
+.top-right {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 3px;
 }
