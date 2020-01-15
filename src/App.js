@@ -46,10 +46,6 @@ class App extends React.Component {
     }
   };
 
-  /**
-   * Set visibleTasks array
-   */
-  setVisibleTasks() {}
 
   /**
    * Open model to edit task
@@ -73,7 +69,6 @@ class App extends React.Component {
    */
   editTask = e => {
     e.preventDefault();
-    console.log('update data', e.target.elements);
     const index = this.state.editableTask;
     const taskName = e.target.elements.taskName.value;
     const startDate = e.target.elements.startDate.value;
@@ -91,7 +86,6 @@ class App extends React.Component {
           startDate: startDate,
           endDate: endDate
         };
-        console.log('UPDATE UPDATE', tasks[index]);
         // 4. Put it back into our array. N.B. we *are* mutating the array here, but that's why we made a copy first
         tasks[index] = task;
         // 5. Set the state to our new copy

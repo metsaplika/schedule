@@ -126,7 +126,6 @@ class TaskTable extends React.Component {
         }
       }
     });
-    console.log('tasks', tasks);
     return tasks;
   }
 
@@ -134,15 +133,12 @@ class TaskTable extends React.Component {
    * Display available tasks in table
    */
   getTableData = () => {
-    console.log('tasks', this.getTasks());
     let rows = [];
     this.getTasks().forEach((task, i) => {
       const startYear = moment(task.startDate, 'YYYYMMDD').year();
       const endYear = moment(task.endDate, 'YYYYMMDD').year();
       const startWeek = moment(task.startDate, 'YYYYMMDD').isoWeek();
       const endWeek = moment(task.endDate, 'YYYYMMDD').isoWeek();
-      console.log('start year', startYear);
-      console.log('end year', endYear);
       let row = [];
       this.getWeeksInQuarter().forEach(week => {
         let className;
