@@ -11,14 +11,18 @@ import moment from 'moment';
 class App extends React.Component {
   state = {
     tasks: [
-      { taskName: 'testin', startDate: '2020-01-01', endDate: '2020-01-25' },
-      { taskName: 'testin', startDate: '2020-01-23', endDate: '2020-03-25' }
+      { taskName: 'testin', startDate: '2019-05-01', endDate: '2020-01-25' },
+      { taskName: 'testin', startDate: '2019-12-01', endDate: '2020-01-25' },
+      { taskName: 'testin', startDate: '2020-03-01', endDate: '2021-01-25' },
+      { taskName: 'testin', startDate: '2020-01-23', endDate: '2020-08-25' }
     ],
     showModal: false,
     editableTask: undefined
   };
 
-  // handle field change
+  /**
+   * handle field change
+   */
   saveTask = e => {
     e.preventDefault();
     const objectSize = Object.keys(this.state.tasks).length;
@@ -41,6 +45,11 @@ class App extends React.Component {
       alert('To save new task, all fields must be filled');
     }
   };
+
+  /**
+   * Set visibleTasks array
+   */
+  setVisibleTasks() {}
 
   /**
    * Open model to edit task
@@ -117,7 +126,7 @@ class App extends React.Component {
           </div>
         </div>
         <div>
-          <Modal show={this.state.showModal}>
+          <Modal show={this.state.showModal} onHide={this.handleModal}>
             <Modal.Header className='modal-header'>
               Edit task
               <span className='top-right mr-2' onClick={this.handleModal}>

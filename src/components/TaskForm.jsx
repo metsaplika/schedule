@@ -22,7 +22,6 @@ const TaskForm = props => {
                 type='date'
                 placeholder='Start date'
                 className='left'
-                value={props.startDate}
               />
             </div>
           </div>

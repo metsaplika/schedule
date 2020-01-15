@@ -98,46 +98,76 @@ class TaskTable extends React.Component {
    * @return {obj} - tasks
    */
   getTasks() {
+    const weeks = this.getWeeksInQuarter();
     let tasks = [];
-    this.state.tasks.forEach(task => {
+    this.state.tasks.forEach((task, index) => {
       if (tasks.length < 11) {
         if (
           (moment(task.startDate, 'YYYYMMDD').year() === this.state.year &&
-            this.getWeeksInQuarter().includes(
-              moment(task.startDate, 'YYYYMMDD').isoWeek()
-            )) ||
+            weeks.includes(moment(task.startDate, 'YYYYMMDD').isoWeek())) ||
           (moment(task.endDate, 'YYYYMMDD').year() === this.state.year &&
-            this.getWeeksInQuarter().includes(
-              moment(task.endDate, 'YYYYMMDD').isoWeek()
-            ))
+            weeks.includes(moment(task.endDate, 'YYYYMMDD').isoWeek())) ||
+          (moment(task.endDate, 'YYYYMMDD').year() === this.state.year &&
+            weeks[0] > moment(task.startDate, 'YYYYMMDD').isoWeek() &&
+            weeks[weeks.length - 1] <
+              moment(task.endDate, 'YYYYMMDD').isoWeek()) ||
+          // task started last year and ends this year and its last week's number is greater than last week number in weeks array
+          (moment(task.startDate, 'YYYYMMDD').year() < this.state.year &&
+            moment(task.endDate, 'YYYYMMDD').year() == this.state.year &&
+            weeks[weeks.length - 1] <
+              moment(task.endDate, 'YYYYMMDD').isoWeek()) ||
+          // task starts this year and ends next year
+          (moment(task.endDate, 'YYYYMMDD').year() > this.state.year &&
+            moment(task.startDate, 'YYYYMMDD').year() == this.state.year &&
+            weeks[0] > moment(task.startDate, 'YYYYMMDD').isoWeek())
         ) {
+          task.id = index;
           tasks.push(task);
         }
       }
     });
+    console.log('tasks', tasks);
     return tasks;
   }
+
+  /**
+   * Display available tasks in table
+   */
   getTableData = () => {
+    console.log('tasks', this.getTasks());
     let rows = [];
     this.getTasks().forEach((task, i) => {
+      const startYear = moment(task.startDate, 'YYYYMMDD').year();
+      const endYear = moment(task.endDate, 'YYYYMMDD').year();
       const startWeek = moment(task.startDate, 'YYYYMMDD').isoWeek();
       const endWeek = moment(task.endDate, 'YYYYMMDD').isoWeek();
+      console.log('start year', startYear);
+      console.log('end year', endYear);
       let row = [];
       this.getWeeksInQuarter().forEach(week => {
         let className;
         let index;
-        if (week >= startWeek && week <= endWeek) {
+        if (
+          (week >= startWeek && week <= endWeek) ||
+          (week >= startWeek &&
+            startYear === this.state.year &&
+            endYear > this.state.year) ||
+          (week <= endWeek &&
+            startYear < this.state.year &&
+            endYear === this.state.year)
+        ) {
           className = 'active-week';
-          index = i;
+          index = task.id;
         } else {
           className = 'bg-light';
+          index = undefined;
         }
         row.push(
           <div
             key={week}
             className={'col week ' + className}
             data-index={index}
-            onClick={this.openTaskModal}
+            onMouseOver={this.openTaskModal}
           ></div>
         );
       });
@@ -167,6 +197,7 @@ class TaskTable extends React.Component {
 
     return (
       <div className='container tasks-container mx-auto'>
+        <div className='row border-bottom'>{this.state.year}</div>
         <div className='row'>{quarter}</div>
         <div className='row'>{weeks}</div>
         <div>{this.getTableData()}</div>
